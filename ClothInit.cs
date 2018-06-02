@@ -7,6 +7,7 @@ public class ClothInit : MonoBehaviour
 	public bool useUv = true;
 	public bool useRed = true;
 	[Range(0,1)] public float uvThreshold = 0.25f;
+	public Animator animator;
 
 	void Start () 
 	{
@@ -16,6 +17,12 @@ public class ClothInit : MonoBehaviour
 		Transform rootBone = smr.rootBone;
 		ClothSkinningCoefficient[] newConstraints = cloth.coefficients;
 		smr.rootBone = null;
+
+		if(animator != null)
+			animator.enabled = false;
+
+//		Vector3 origScale = transform.lossyScale;
+//		transform.lossyScale = 1;
 
 		// Really oughtta put the scale safeguard back in.
 
@@ -58,6 +65,11 @@ public class ClothInit : MonoBehaviour
 		cloth.coefficients = newConstraints;
 
 		smr.rootBone = rootBone;
+
+		if(animator != null)
+			animator.enabled = true;
+
+//		transform.lossyScale = origScale;
 
 		Debug.Log("UPDATED CLOTH CONSTRAINTS on " + gameObject.name + ". Copy Cloth settings to GameObject out of play mode and turn this script off.");
 	}
