@@ -5,7 +5,9 @@ using UnityEngine;
 public class ClothInit : MonoBehaviour 
 {
 	public bool useUv = true;
+	public bool useGradientForUv = true;
 	public bool useRed = true;
+	public float maxDistance = float.MaxValue;
 	[Range(0,1)] public float uvThreshold = 0.25f;
 	public Animator animator;
 
@@ -54,11 +56,26 @@ public class ClothInit : MonoBehaviour
 				}
 			}
 
-			float finalValue = float.MaxValue;
-			if(useUv && mesh.uv[matchingIndex].x < uvThreshold)
-				finalValue *= 0;
+			float finalValue = maxDistance;
+			if(useUv)
+			{
+				if(useGradientForUv)
+				{
+					var x = mesh.uv[matchingIndex].x;
+					var perc = Mathf.Clamp01(x - uvThreshold) / (1 - uvThreshold);
+//					Debug.Log(x + " - " + perc);
+					finalValue *= perc;
+				}
+				else
+				{
+					if(mesh.uv[matchingIndex].x < uvThreshold)
+						finalValue *= 0;
+				}
+			}
 			if(useRed)
+			{
 				finalValue *= mesh.colors[matchingIndex].r;
+			}
 			newConstraints[c].maxDistance = finalValue;
 		}
 
