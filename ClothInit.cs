@@ -10,6 +10,7 @@ public class ClothInit : MonoBehaviour
 	public float maxDistance = float.MaxValue;
 	[Range(0,1)] public float uvThreshold = 0.25f;
 	public Animator animator;
+	public bool debugObjs = false;
 
 	void Start () 
 	{
@@ -27,6 +28,24 @@ public class ClothInit : MonoBehaviour
 //		transform.lossyScale = 1;
 
 		// Really oughtta put the scale safeguard back in.
+
+		if(debugObjs)
+		{
+			Debug.Log("Cubes are cloth vertices, spheres are mesh vertices");
+			const float objScale = 0.01f;
+			foreach(Vector3 clothVert in cloth.vertices)
+			{
+				GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				cube.transform.localScale *= objScale;
+				cube.transform.localPosition = clothVert;
+			}
+			foreach(Vector3 meshVert in mesh.vertices)
+			{
+				GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+				sphere.transform.localScale *= objScale;
+				sphere.transform.localPosition = meshVert;
+			}
+		}
 
 		for(int c = 0; c < cloth.vertices.Length; ++c)
 		{
