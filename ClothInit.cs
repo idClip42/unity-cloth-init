@@ -11,6 +11,8 @@ public class ClothInit : MonoBehaviour
 	[Range(0,1)] public float uvThreshold = 0.25f;
 	public Animator animator;
 	public bool debugObjs = false;
+	ClothSphereColliderPair[] colliderSpheres;
+	CapsuleCollider[] colliderCapsules;
 
 	void Start () 
 	{
@@ -28,6 +30,12 @@ public class ClothInit : MonoBehaviour
 //		transform.lossyScale = 1;
 
 		// Really oughtta put the scale safeguard back in.
+
+		// Get rid of colliders
+		colliderSpheres = cloth.sphereColliders;
+		cloth.sphereColliders = new ClothSphereColliderPair[]{};
+		colliderCapsules = cloth.capsuleColliders;
+		cloth.capsuleColliders = new CapsuleCollider[]{};
 
 		if(debugObjs)
 		{
@@ -104,6 +112,9 @@ public class ClothInit : MonoBehaviour
 
 		if(animator != null)
 			animator.enabled = true;
+
+		cloth.capsuleColliders = colliderCapsules;
+		cloth.sphereColliders = colliderSpheres;
 
 //		transform.lossyScale = origScale;
 
