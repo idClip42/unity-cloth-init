@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class ClothInit : MonoBehaviour 
 {
-	public bool useUv = true;
-	public bool useGradientForUv = true;
+	public bool useUv = false;
+	public bool useGradientForUv = false;
 	public bool useRed = true;
-	public float maxDistance = float.MaxValue;
+	public float maxDistance = 0.15f;
 	[Range(0,1)] public float uvThreshold = 0.25f;
 	public Animator animator;
-	public bool debugObjs = false;
+	public bool debugObjs = true;
 	public bool endOnFirstFail = true;
 	public bool oneTestPerVert = false;
 	public bool checkViaMinDistance = true;
 	public float minDistForMatch = 0.001f;
+	public Vector3 compareRotation;
+	public bool useInverseTransformIfNotAligned;
 	ClothSphereColliderPair[] colliderSpheres;
 	CapsuleCollider[] colliderCapsules;
 
@@ -212,13 +214,17 @@ public class ClothInit : MonoBehaviour
 
 	Vector3 TransformMeshVert(Vector3 vert)
 	{
-		vert =  Quaternion.Euler(-90, 0, 0) * vert;
-		vert = rootBone.InverseTransformPoint(vert);
+		vert =  Quaternion.Euler(compareRotation) * vert;
+		if(useInverseTransformIfNotAligned)
+			vert = rootBone.InverseTransformPoint(vert);
 		return vert;
 	}
 
 	Vector3 TransformClothVert(Vector3 vert)
 	{
+		// vert =  Quaternion.Euler(compareRotation) * vert;
+		// vert = cloth.transform.parent.InverseTransformPoint(vert);
+		// vert = rootBone.TransformPoint(vert);
 		return vert;
 	}
 
