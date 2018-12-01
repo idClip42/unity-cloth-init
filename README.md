@@ -3,8 +3,8 @@ A script for initializing Unity cloth constraints based on vertex color and/or U
 
 ### Initial Modeling:
 When creating the model you want to turn into Unity Cloth, specify which vertices will be free to move by either:
-- Arranging their uvs in a line from left to right, with the leftmost uvs being the ones that will be held in place and the rightmost uvs being the ones that will move more freely. You will be able to determine later where along the x axis the cloth begins.
-- Using vertex colors to color the more free vertices red, and the more held-in-place vertices black. It is recommended that you color in a gradient between black and red, rather than jumping between totally red and totally black.
+- Arranging their uvs in a line from left to right, with the leftmost uvs being the ones that will be held in place and the rightmost uvs being the ones that will move more freely. You will be able to determine later where along the x axis the cloth begins. This is useful for things like hair strands.
+- Using vertex colors to color the more free vertices red, and the more held-in-place vertices black. It is recommended that you color in a gradient between black and red, rather than jumping between totally red and totally black. This is the recommended method of designing cloth.
 
 ### Using the Script:
 Add your model to Unity and to the scene, and give it a cloth component and this script component.<br>
