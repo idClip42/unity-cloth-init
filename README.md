@@ -11,10 +11,8 @@ Add your model to Unity and to the scene, and give it a cloth component and this
 The script has three properties:
 - **Max Move Distance**: How far (in meters) individual cloth vertices can travel from their original skinned mesh positions
 - **Cloth Init Type**: Dropdown options for what the cloth weighting will be based off of:
-  - **UV_Hard**: Anything before the UV Threshold (discussed below) is static, anything after it is cloth.
   - **UV_Gradient**: Anything before the UV Threshold (discussed below) is static, and from there to the end it fade into cloth.
   - **Vert_Red**: Vertex colors determine level of cloth freedom, from black at 0 to red at the Max Move Distance.
-  - **UV_Hard_Vert_Red**: Both UV_Hard and Vert_Red.
   - **UV_Gradient_Vert_Red**: Both UV_Gradient and Vert_Red.
 - **UV Threshold**: How far along the x axis model uvs can get before they start turning into cloth.
 
