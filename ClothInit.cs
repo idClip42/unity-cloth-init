@@ -5,11 +5,13 @@ using UnityEngine;
 public class ClothInit : MonoBehaviour
 {
     //public Animator animator;
-    public enum ClothInitType { UV_Hard, UV_Gradient, Vert_Red, UV_Hard_Vert_Red, UV_Gradient_Vert_Red };
+    //public enum ClothInitType { UV_Hard, UV_Gradient, Vert_Red, UV_Hard_Vert_Red, UV_Gradient_Vert_Red };
+    public enum ClothInitType { UV_Gradient, Vert_Red, UV_Gradient_Vert_Red };
     public float maxDistance = 0.15f;
     public ClothInitType clothGenerationType = ClothInitType.Vert_Red;
     [Range(0, 1)] public float uvThreshold = 0.25f;  // Only show this when UVs are on
-    public float minDistForMatch = 0.001f;          // Only show this when red is on
+    //public float minDistForMatch = 0.001f;          // Only show this when red is on
+    const float minDistForMatch = 0.001f;          // Only show this when red is on
 
     bool useUv = false;
 	bool useGradientForUv = false;
@@ -155,16 +157,16 @@ public class ClothInit : MonoBehaviour
                 useGradientForUv = true;
                 useRed = true;
                 break;
-            case ClothInitType.UV_Hard:
-                useUv = true;
-                useGradientForUv = false;
-                useRed = false;
-                break;
-            case ClothInitType.UV_Hard_Vert_Red:
-                useUv = true;
-                useGradientForUv = false;
-                useRed = true;
-                break;
+            //case ClothInitType.UV_Hard:
+            //    useUv = true;
+            //    useGradientForUv = false;
+            //    useRed = false;
+            //    break;
+            //case ClothInitType.UV_Hard_Vert_Red:
+                //useUv = true;
+                //useGradientForUv = false;
+                //useRed = true;
+                //break;
             case ClothInitType.Vert_Red:
                 useUv = false;
                 useGradientForUv = false;

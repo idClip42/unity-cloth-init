@@ -24,20 +24,22 @@ public class ClothInitEditor : Editor
 
         script.clothGenerationType = (ClothInit.ClothInitType)EditorGUILayout.EnumPopup("Cloth Init Type", script.clothGenerationType);
 
-        if (script.clothGenerationType == ClothInit.ClothInitType.UV_Hard ||
+        if (
+            //script.clothGenerationType == ClothInit.ClothInitType.UV_Hard ||
           script.clothGenerationType == ClothInit.ClothInitType.UV_Gradient ||
-           script.clothGenerationType == ClothInit.ClothInitType.UV_Gradient_Vert_Red ||
-           script.clothGenerationType == ClothInit.ClothInitType.UV_Hard_Vert_Red)
+           script.clothGenerationType == ClothInit.ClothInitType.UV_Gradient_Vert_Red// ||
+           //script.clothGenerationType == ClothInit.ClothInitType.UV_Hard_Vert_Red
+        )
         {
             script.uvThreshold = EditorGUILayout.Slider("UV Threshold", script.uvThreshold, 0, 1);
         }
 
-        if (script.clothGenerationType == ClothInit.ClothInitType.Vert_Red ||
-           script.clothGenerationType == ClothInit.ClothInitType.UV_Hard_Vert_Red ||
-           script.clothGenerationType == ClothInit.ClothInitType.UV_Gradient_Vert_Red)
-        { 
-        script.minDistForMatch = EditorGUILayout.FloatField("Min Point Match Distance", script.minDistForMatch);
-        }
+        //if (script.clothGenerationType == ClothInit.ClothInitType.Vert_Red ||
+        //   script.clothGenerationType == ClothInit.ClothInitType.UV_Hard_Vert_Red ||
+        //   script.clothGenerationType == ClothInit.ClothInitType.UV_Gradient_Vert_Red)
+        //{ 
+        //script.minDistForMatch = EditorGUILayout.FloatField("Min Point Match Distance", script.minDistForMatch);
+        //}
 
 
 
