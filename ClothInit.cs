@@ -18,13 +18,13 @@ public class ClothInit : MonoBehaviour
     //public bool debugObjs = true;
     const bool debugObjs = false;
     //public bool endOnFirstFail = true;
-    const bool endOnFirstFail = true;
+    //const bool endOnFirstFail = true;
     //public bool oneTestPerVert = false;
-    const bool oneTestPerVert = false;
+    //const bool oneTestPerVert = false;
     //public bool checkViaMinDistance = true;
-    const bool checkViaMinDistance = true;
-	ClothSphereColliderPair[] colliderSpheres;
-	CapsuleCollider[] colliderCapsules;
+    //const bool checkViaMinDistance = true;
+	//ClothSphereColliderPair[] colliderSpheres;
+	//CapsuleCollider[] colliderCapsules;
 
 	MeshRenderer[] debugCubes;
 	MeshRenderer[] debugSpheres;
@@ -100,7 +100,7 @@ public class ClothInit : MonoBehaviour
             //          if(TransformClothVert(clothVert) != TransformMeshVert(meshVert))
             if (!CompareVerts(clothVert, meshVert))
             {
-                if (oneTestPerVert) continue;
+                //if (oneTestPerVert) continue;
                 for (int m = 0; m < mesh.vertices.Length; ++m)
                 {
                     var mIndex = m;
@@ -116,13 +116,13 @@ public class ClothInit : MonoBehaviour
                 if (matchingIndex == c)
                 {
                     //Debug.Log("Couldn't find a match");
-                    if (endOnFirstFail)
-                    {
+                    //if (endOnFirstFail)
+                    //{
                         //Debug.Log("FAILED! After " + c + " vertices.");
                         //Repair();
                         return false;
-                    }
-                    continue;
+                    //}
+                    //continue;
                 }
             }
 
@@ -176,7 +176,7 @@ public class ClothInit : MonoBehaviour
 	void Prepare()
 	{
 		rootBone = smr.rootBone;
-		smr.rootBone = null;
+		//smr.rootBone = null;
 
 		newConstraints = cloth.coefficients;
 
@@ -196,13 +196,13 @@ public class ClothInit : MonoBehaviour
 		// Really oughtta put the scale safeguard back in.
 
 		// Get rid of colliders
-		colliderSpheres = cloth.sphereColliders;
-		cloth.sphereColliders = new ClothSphereColliderPair[]{};
-		colliderCapsules = cloth.capsuleColliders;
-		cloth.capsuleColliders = new CapsuleCollider[]{};
+		//colliderSpheres = cloth.sphereColliders;
+		//cloth.sphereColliders = new ClothSphereColliderPair[]{};
+		//colliderCapsules = cloth.capsuleColliders;
+		//cloth.capsuleColliders = new CapsuleCollider[]{};
 
-		damping = cloth.damping;
-		cloth.damping = 1;
+		//damping = cloth.damping;
+		//cloth.damping = 1;
 
 //		cloth.enabled = false;
 	}
@@ -211,7 +211,7 @@ public class ClothInit : MonoBehaviour
 	{
 		cloth.coefficients = newConstraints;
 
-		smr.rootBone = rootBone;
+		//smr.rootBone = rootBone;
 
 		//if(animator != null)
 		//{
@@ -221,10 +221,10 @@ public class ClothInit : MonoBehaviour
 			transform.position = animPos;
 		//}
 
-		cloth.capsuleColliders = colliderCapsules;
-		cloth.sphereColliders = colliderSpheres;
+		//cloth.capsuleColliders = colliderCapsules;
+		//cloth.sphereColliders = colliderSpheres;
 
-		cloth.damping = damping;
+		//cloth.damping = damping;
 
 //		cloth.enabled = true;
 
@@ -316,12 +316,12 @@ public class ClothInit : MonoBehaviour
 	bool CompareVerts(Vector3 cloth, Vector3 mesh)
 	{
 		float sqrMaxDist = Mathf.Pow(minDistForMatch, 2);
-		if(checkViaMinDistance)
-		{
+		//if(checkViaMinDistance)
+		//{
 			return Vector3.SqrMagnitude(TransformClothVert(cloth) - TransformMeshVert(mesh)) < sqrMaxDist;
-		} else {
-			return TransformClothVert(cloth) == TransformMeshVert(mesh);
-		}
-		return false;
+		//} else {
+		//	return TransformClothVert(cloth) == TransformMeshVert(mesh);
+		//}
+		//return false;
 	}
 }
