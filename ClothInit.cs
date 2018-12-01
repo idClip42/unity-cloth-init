@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClothInit : MonoBehaviour
 {
-    //public Animator animator;
+    Animator animator;
     //public enum ClothInitType { UV_Hard, UV_Gradient, Vert_Red, UV_Hard_Vert_Red, UV_Gradient_Vert_Red };
     public enum ClothInitType { UV_Gradient, Vert_Red, UV_Gradient_Vert_Red };
     public float maxDistance = 0.15f;
@@ -18,7 +18,7 @@ public class ClothInit : MonoBehaviour
 	bool useRed = true;
 
     //public bool debugObjs = true;
-    const bool debugObjs = false;
+    //const bool debugObjs = false;
     //public bool endOnFirstFail = true;
     //const bool endOnFirstFail = true;
     //public bool oneTestPerVert = false;
@@ -28,8 +28,8 @@ public class ClothInit : MonoBehaviour
 	//ClothSphereColliderPair[] colliderSpheres;
 	//CapsuleCollider[] colliderCapsules;
 
-	MeshRenderer[] debugCubes;
-	MeshRenderer[] debugSpheres;
+	//MeshRenderer[] debugCubes;
+	//MeshRenderer[] debugSpheres;
 
 	SkinnedMeshRenderer smr;
 	Mesh mesh;
@@ -56,7 +56,7 @@ public class ClothInit : MonoBehaviour
 	{
 		Initialize();
 		Prepare();
-		if(debugObjs) DebugShapes();
+		//if(debugObjs) DebugShapes();
 		ZeroOut();
 
         bool didIt = false;
@@ -71,12 +71,16 @@ public class ClothInit : MonoBehaviour
             {
                 didIt = true;
                 break;
+            } else {
+                //DebugShapes();
             }
             useInverseTransformIfNotAligned = true;
             if (RunThruMatchingProcess()) {
                 didIt = true;
                 break;
-            } 
+            } else {
+                //DebugShapes();
+            }
         }
 
 
@@ -86,7 +90,7 @@ public class ClothInit : MonoBehaviour
             Debug.Log("UPDATED CLOTH CONSTRAINTS on " + gameObject.name + ".");
         else
         {
-            Debug.Log("FAILED TO UPDATE CLOTH CONSTRAINTS");
+            Debug.Log("FAILED TO UPDATE CLOTH CONSTRAINTS on " + gameObject.name + ".");
             //DebugShapes();
         }
 	}
@@ -178,19 +182,19 @@ public class ClothInit : MonoBehaviour
 	void Prepare()
 	{
 		rootBone = smr.rootBone;
-		//smr.rootBone = null;
+		smr.rootBone = null;
 
 		newConstraints = cloth.coefficients;
 
-		//if(animator != null)
-		//{
+		if(animator != null)
+		{
 			//animator.enabled = false;
-			//animPos = animator.transform.position;
-			//animator.transform.position = Vector3.zero;
-		//} else {
+			animPos = animator.transform.position;
+			animator.transform.position = Vector3.zero;
+		} else {
 			animPos = transform.position;
 			transform.position = Vector3.zero;
-		//}
+		}
 
 		//		Vector3 origScale = transform.lossyScale;
 		//		transform.lossyScale = 1;
@@ -213,15 +217,15 @@ public class ClothInit : MonoBehaviour
 	{
 		cloth.coefficients = newConstraints;
 
-		//smr.rootBone = rootBone;
+		smr.rootBone = rootBone;
 
-		//if(animator != null)
-		//{
-			//animator.enabled = true;
-			//animator.transform.position = animPos;
-		//} else {
+		if(animator != null)
+		{
+			animator.enabled = true;
+			animator.transform.position = animPos;
+		} else {
 			transform.position = animPos;
-		//}
+		}
 
 		//cloth.capsuleColliders = colliderCapsules;
 		//cloth.sphereColliders = colliderSpheres;
@@ -238,8 +242,10 @@ public class ClothInit : MonoBehaviour
 		Debug.Log("Cubes are cloth vertices, spheres are mesh vertices");
 		const float objScale = 0.01f;
 
-		debugCubes = new MeshRenderer[cloth.vertices.Length];
-		debugSpheres = new MeshRenderer[mesh.vertices.Length];
+        //debugCubes = new MeshRenderer[cloth.vertices.Length];
+        //debugSpheres = new MeshRenderer[mesh.vertices.Length];
+
+        GameObject parentObject = new GameObject("debugParentObject");
 
 		for(int c = 0 ; c < cloth.vertices.Length; ++c)
 		{
@@ -247,7 +253,8 @@ public class ClothInit : MonoBehaviour
 			GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 			cube.transform.localScale *= objScale;
 			cube.transform.localPosition = TransformClothVert(clothVert);
-			debugCubes[c] = cube.GetComponent<MeshRenderer>();
+            //debugCubes[c] = cube.GetComponent<MeshRenderer>();
+            cube.transform.parent = parentObject.transform;
 		}
 		for(int m = 0 ; m < mesh.vertices.Length; ++m)
 		{
@@ -255,8 +262,9 @@ public class ClothInit : MonoBehaviour
 			GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			sphere.transform.localScale *= objScale;
 			sphere.transform.localPosition = TransformMeshVert(meshVert);
-			debugSpheres[m] = sphere.GetComponent<MeshRenderer>();
-		}
+            //debugSpheres[m] = sphere.GetComponent<MeshRenderer>();
+            sphere.transform.parent = parentObject.transform;
+        }
 	}
 
 	void ZeroOut()
@@ -270,11 +278,11 @@ public class ClothInit : MonoBehaviour
 
 	void ApplyClothVert(int c, int m)
 	{
-		if(debugObjs)
-		{
-			debugCubes[c].material = null;
-			debugSpheres[m].material = null;
-		}
+		//if(debugObjs)
+		//{
+		//	debugCubes[c].material = null;
+		//	debugSpheres[m].material = null;
+		//}
 
 		float finalValue = maxDistance;
 		if(useUv)
