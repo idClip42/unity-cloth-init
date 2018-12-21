@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClothInit : MonoBehaviour
 {
-    Animator animator;
+    //Animator animator;
     //public enum ClothInitType { UV_Hard, UV_Gradient, Vert_Red, UV_Hard_Vert_Red, UV_Gradient_Vert_Red };
     public enum ClothInitType { UV_Gradient, Vert_Red, UV_Gradient_Vert_Red };
     public float maxDistance = 0.15f;
@@ -186,15 +186,15 @@ public class ClothInit : MonoBehaviour
 
 		newConstraints = cloth.coefficients;
 
-		if(animator != null)
-		{
-			//animator.enabled = false;
-			animPos = animator.transform.position;
-			animator.transform.position = Vector3.zero;
-		} else {
+		//if(animator != null)
+		//{
+		//	//animator.enabled = false;
+		//	animPos = animator.transform.position;
+		//	animator.transform.position = Vector3.zero;
+		//} else {
 			animPos = transform.position;
 			transform.position = Vector3.zero;
-		}
+		//}
 
 		//		Vector3 origScale = transform.lossyScale;
 		//		transform.lossyScale = 1;
@@ -219,13 +219,13 @@ public class ClothInit : MonoBehaviour
 
 		smr.rootBone = rootBone;
 
-		if(animator != null)
-		{
-			animator.enabled = true;
-			animator.transform.position = animPos;
-		} else {
+		//if(animator != null)
+		//{
+		//	animator.enabled = true;
+		//	animator.transform.position = animPos;
+		//} else {
 			transform.position = animPos;
-		}
+		//}
 
 		//cloth.capsuleColliders = colliderCapsules;
 		//cloth.sphereColliders = colliderSpheres;
