@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClothInit : MonoBehaviour
 {
-    //Animator animator;
+    Animator animator;
     //public enum ClothInitType { UV_Hard, UV_Gradient, Vert_Red, UV_Hard_Vert_Red, UV_Gradient_Vert_Red };
     public enum ClothInitType { UV_Gradient, Vert_Red, UV_Gradient_Vert_Red };
     public float maxDistance = 0.15f;
@@ -49,6 +49,7 @@ public class ClothInit : MonoBehaviour
     //bool currentInverseTransform = false;
     Vector3 compareRotation;
     bool useInverseTransformIfNotAligned;
+
 
 
     //void Start () 
@@ -97,25 +98,29 @@ public class ClothInit : MonoBehaviour
 
     bool RunThruMatchingProcess()
     {
+        string vertOffsetList = "";
+        int extraOffset = 0;
         for (int c = 0; c < cloth.vertices.Length; ++c)
         {
             int matchingIndex = c;
             Vector3 clothVert = cloth.vertices[c];
-            Vector3 meshVert = mesh.vertices[c];
+            //Vector3 meshVert = mesh.vertices[c];
 
             //          if(TransformClothVert(clothVert) != TransformMeshVert(meshVert))
-            if (!CompareVerts(clothVert, meshVert))
+            if (!CompareVerts(clothVert, mesh.vertices[c]))
             {
                 //if (oneTestPerVert) continue;
                 for (int m = 0; m < mesh.vertices.Length; ++m)
                 {
-                    var mIndex = m;
-                    mIndex = (m + c) % mesh.vertices.Length;
-                    meshVert = mesh.vertices[mIndex];
+                    //var mIndex = m;
+                    int mIndex = (m + c + extraOffset) % mesh.vertices.Length;
+                    //meshVert = mesh.vertices[mIndex];
                     //                  if(TransformClothVert(clothVert) == TransformMeshVert(meshVert))
-                    if (CompareVerts(clothVert, meshVert))
+                    if (CompareVerts(clothVert, mesh.vertices[mIndex]))
                     {
                         matchingIndex = mIndex;
+                        vertOffsetList += "+" + m + "\n";
+                        extraOffset = m;
                         break;
                     }
                 }
@@ -134,6 +139,8 @@ public class ClothInit : MonoBehaviour
 
             ApplyClothVert(c, matchingIndex);
         }
+        Debug.Log("Vert Offset List:");
+        Debug.Log(vertOffsetList);
 
         return true;
     }
@@ -141,6 +148,7 @@ public class ClothInit : MonoBehaviour
 	void Initialize()
 	{
 		smr = GetComponent<SkinnedMeshRenderer>();
+        //animator = 
 		mesh = smr.sharedMesh;
 		cloth = GetComponent<Cloth>();
         SetUsageType();
@@ -186,15 +194,15 @@ public class ClothInit : MonoBehaviour
 
 		newConstraints = cloth.coefficients;
 
-		//if(animator != null)
-		//{
-		//	//animator.enabled = false;
-		//	animPos = animator.transform.position;
-		//	animator.transform.position = Vector3.zero;
-		//} else {
+		if(animator != null)
+		{
+			//animator.enabled = false;
+			animPos = animator.transform.position;
+			animator.transform.position = Vector3.zero;
+		} else {
 			animPos = transform.position;
 			transform.position = Vector3.zero;
-		//}
+		}
 
 		//		Vector3 origScale = transform.lossyScale;
 		//		transform.lossyScale = 1;
@@ -219,13 +227,13 @@ public class ClothInit : MonoBehaviour
 
 		smr.rootBone = rootBone;
 
-		//if(animator != null)
-		//{
-		//	animator.enabled = true;
-		//	animator.transform.position = animPos;
-		//} else {
+		if(animator != null)
+		{
+			animator.enabled = true;
+			animator.transform.position = animPos;
+		} else {
 			transform.position = animPos;
-		//}
+		}
 
 		//cloth.capsuleColliders = colliderCapsules;
 		//cloth.sphereColliders = colliderSpheres;
